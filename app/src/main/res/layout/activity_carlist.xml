@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- 顶部是一个TabLayout，可以设置background。app:tabIndicatorColor是设置指示器的背景颜色，
+     app:tabIndicatorHeight设置指示器的高度，
+     app:tabSelectedTextColor是选中时文本的颜色，
+     app:tabTextColor是普通状态的文本颜色，
+     app:tabMode是是否可滑动，有两个fixed和scrollable,fixed是固定的，scrollable是类似于今日头条那种可以滑动的。-->
+   <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.shura.rmct2.tool.CommonToolBar
+            android:id="@+id/toolbarcarlist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/app_color" />
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tab"
+            app:tabIndicatorColor="#fff"
+            app:tabSelectedTextColor="#4ff"
+            android:background="@color/app_color"
+            app:tabMode="fixed"
+            app:tabTextColor="#fff"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        >
+
+    </android.support.v4.view.ViewPager>
+
+</LinearLayout>

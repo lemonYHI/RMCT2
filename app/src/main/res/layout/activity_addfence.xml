@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <com.shura.rmct2.tool.CommonToolBar
+        android:id="@+id/toolbaraddfence"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/app_color" />
+
+
+    <com.amap.api.maps2d.MapView
+        android:id="@+id/addfenceMap"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbaraddfence" />
+
+    <!--添加浮动按钮，必须是relativelayout-->
+    <Button
+        android:id="@+id/btn_setFenceName"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="170dp"
+        android:background="@drawable/ic_menu_manage"
+        />
+
+</RelativeLayout>

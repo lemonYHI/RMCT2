@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="white">#fff</color>
+
+    <!--字母导航-->
+    <color name="oklib_frame_black">#212633</color>
+    <color name="oklib_common_layout_bg">#F0F0F0</color>
+    <color name="oklib_colorMsgText">#666666</color>
+    <color name="oklib_colorSideBarBg">#3f000000</color>
+    <color name="oklib_colorDialogBg">#7f000000</color>
+    <color name="oklib_search_dialog_line">#fff00000</color>
+    <color name="app_color">#485C6C</color>
+
+</resources>
