@@ -1,15 +1,11 @@
-package com.shura.rmct2.Car;
+package com.shura.rmct2.look;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Toast;
 
 import com.shura.rmct2.R;
 import com.shura.rmct2.adapter.TitleFragmentPagerAdapter;
@@ -21,11 +17,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 车辆列表
+ * 随便看看
  * Created by lemon on 2017/10/24.
  */
 
-public class CarListActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener {
+public class LookActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener {
     List<Fragment> fragmentList;
     List<String> title;
     TabLayout tab;
@@ -44,7 +40,7 @@ public class CarListActivity extends AppCompatActivity implements ViewPager.OnPa
 
     private void initTitle() {
         CommonToolBar toolbar = (CommonToolBar) findViewById(R.id.toolbarcarlist);
-        toolbar.setCenterTitle("车辆列表", 17, R.color.white);
+        toolbar.setCenterTitle("随便看看", 17, R.color.white);
         toolbar.setImmerseState(this, true);
         toolbar.setNavIcon(R.drawable.white_back_icon);
         toolbar.setNavigationListener(new View.OnClickListener() {
@@ -53,30 +49,27 @@ public class CarListActivity extends AppCompatActivity implements ViewPager.OnPa
                 finish();
             }
         });
-        toolbar.setRightTitle("添加设备", 14, R.color.white);
-        toolbar.setRightTitleListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "点击了添加设备", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(CarListActivity.this, AdddeviceActivity.class);
-                startActivity(intent);
-            }
-        });
+
+
     }
 
     private void initViewPager() {
+        //给TabLayout设置值
         title = new ArrayList<String>();
-        title.add("全部（9）");
-        title.add("在线（8）");
-        title.add("离线（1）");
+        title.add("微信精选");
+        title.add("星座运势");
+        title.add("随便什么");
         for (int i = 0; i < title.size(); i++) {
             tab.addTab(tab.newTab().setText(title.get(i)));
         }
-        fragmentList = new ArrayList<>();
-        fragmentList.add(new CarFragment());
-        fragmentList.add(new CarFragment());
-        fragmentList.add(new CarFragment());
 
+        //填充viewpager的内容，每个carFragment里面都是fragment.
+        fragmentList = new ArrayList<>();
+        fragmentList.add(new LookFragment());
+        fragmentList.add(new LookFragment());
+        fragmentList.add(new LookFragment());
+
+        //将tablayout和viewpager适配起来
         TitleFragmentPagerAdapter adapter = new TitleFragmentPagerAdapter(getSupportFragmentManager(),
                 fragmentList, title);
 

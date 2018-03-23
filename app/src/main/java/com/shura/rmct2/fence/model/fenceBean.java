@@ -1,12 +1,14 @@
-package com.shura.rmct2.fence;
+package com.shura.rmct2.fence.model;
 
-import cn.bmob.v3.BmobObject;
+/*import cn.bmob.v3.BmobObject;*/
 
 /**
  * Created by lemon on 2017/10/26.
  */
 
-public class fenceBean extends BmobObject {
+//public class fenceBean extends BmobObject {
+
+public class fenceBean{
 
     String fencepic;
     String fencename;

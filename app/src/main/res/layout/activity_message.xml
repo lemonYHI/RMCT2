@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+    <com.shura.rmct2.tool.CommonToolBar
+        android:id="@+id/ctb_book"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/app_color" />
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello World!" />
+    <Button
+        android:id="@+id/button"
+        android:onClick="getFollowers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="请求书返回的json数据"/>
+    <TextView
+        android:text="摩羯座的今日运势，嘿嘿嘿"
+        android:id="@+id/tv_xingzuo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <Button
+        android:id="@+id/btn_xingzuo"
+        android:text="请求星座的运势"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+</LinearLayout>

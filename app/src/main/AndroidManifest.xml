@@ -90,10 +90,12 @@
         </activity>
 
         <activity android:name=".tool.TestActivity"></activity>
-        <activity android:name=".Car.AdddeviceActivity"></activity>
-        <activity android:name=".Car.CarListActivity"></activity>
+        <activity android:name=".look.LookActivity"></activity>
         <activity android:name=".fence.AddFenceActivity"></activity>
-        <activity android:name=".fence.FenceSetActivity"></activity>
+        <activity android:name=".fence.view.FenceSetActivity"></activity>
+        <activity android:name=".netconnect.BookActivity"></activity>
+        <activity android:name=".picture.GlideDemoActivity"></activity>
+        <activity android:name=".personal.SettingActivity"></activity>
 
 
         <!-- 定位需要的服务 使用2.0的定位需要加上这个 -->

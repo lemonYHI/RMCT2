@@ -5,29 +5,31 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.shura.rmct2.R;
+import com.shura.rmct2.fence.model.MyDataBean;
 
 import java.util.List;
 
 
 /**
  * Created by lemon on 2017/9/28.
+ * 围栏设置对应的adapter
  */
 
 public class FenceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
     //定义一个集合，接收从Activity中传递过来的数据和上下文
-    private List<String> mList;
+    private List<MyDataBean.DataBean> mList;
 
     private Context mContext;
 
     private OnItemClickListener mOnItemClickListener;
     private OnItemLongClickListener mOnItemLongClickListener;
 
+    //将接口和函数结合起来，这个是自定义函数  //参数是下边定义的接口
     public void setOnItemClickListener(OnItemClickListener mOnItemClickListener) {
         this.mOnItemClickListener = mOnItemClickListener;
     }
@@ -37,13 +39,13 @@ public class FenceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
 
-    public FenceAdapter(Context context, List<String> list) {
+    public FenceAdapter(Context context, List<MyDataBean.DataBean> list) {
         this.mContext = context;
         this.mList = list;
-
     }
 
 
+    //加载子item的布局
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(mContext).inflate(R.layout.item_fence, parent, false);
@@ -52,10 +54,11 @@ public class FenceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
 
+    //对子item进行赋值  进行操作
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof MyHolder) {
-            final String itemText = mList.get(position);
+            final String itemText = mList.get(position).getContent();
             ((MyHolder) holder).tv.setText(itemText);
         }
 
@@ -70,6 +73,7 @@ public class FenceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 }
             });
         }
+
         if (mOnItemLongClickListener != null) {
             holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
@@ -90,14 +94,15 @@ public class FenceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
 
+
+
     // 通过holder的方式来初始化每一个ChildView的内容
     class MyHolder extends RecyclerView.ViewHolder {
         TextView tv;
-        ImageView iv;
 
         public MyHolder(View itemView) {
             super(itemView);
-            tv = (TextView) itemView.findViewById(R.id.tv_fence);
+            tv = itemView.findViewById(R.id.tv_fence);
 
         }
     }

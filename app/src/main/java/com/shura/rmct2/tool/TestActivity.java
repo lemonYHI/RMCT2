@@ -16,7 +16,7 @@ import com.shura.rmct2.R;
 
 public class TestActivity extends AppCompatActivity {
 
-    @Override
+   /* @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_test);
@@ -36,5 +36,5 @@ public class TestActivity extends AppCompatActivity {
                         finish();
                     }
                 }).setCenterTitle("TestActivity", 17, R.color.white);
-    }
+    }*/
 }

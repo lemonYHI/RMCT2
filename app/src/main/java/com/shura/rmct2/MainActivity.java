@@ -26,11 +26,12 @@ import com.amap.api.maps2d.UiSettings;
 import com.amap.api.maps2d.model.LatLng;
 import com.amap.api.maps2d.model.MyLocationStyle;
 import com.amap.api.maps2d.model.PolylineOptions;
-import com.shura.rmct2.Car.AdddeviceActivity;
-import com.shura.rmct2.Car.CarListActivity;
-import com.shura.rmct2.fence.FenceSetActivity;
+import com.shura.rmct2.look.LookActivity;
+import com.shura.rmct2.fence.view.FenceSetActivity;
+import com.shura.rmct2.netconnect.BookActivity;
+import com.shura.rmct2.personal.SettingActivity;
 import com.shura.rmct2.tool.CommonToolBar;
-import com.shura.rmct2.tool.TestActivity;
+import com.shura.rmct2.picture.GlideDemoActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -58,24 +59,24 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        CommonToolBar toolbar = (CommonToolBar) findViewById(R.id.toolbarmain);
+        CommonToolBar toolbar = findViewById(R.id.toolbarmain);
         toolbar.setCenterTitle("首页", 17, R.color.white);
-        //toolbar.setImmerseState(this);
-        toolbar.setRightTitle("切换车辆", 14, R.color.white);
+        toolbar.setImmerseState(this);
+        toolbar.setRightTitle("随便看看", 14, R.color.white);
         toolbar.setRightTitleListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(),"点击了切换车辆",Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(MainActivity.this, CarListActivity.class);
+                Toast.makeText(getApplicationContext(),"点击了随便看看",Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MainActivity.this, LookActivity.class);
                 startActivity(intent);
             }
         });
 
 
 
-        mMapView = (MapView) findViewById(R.id.mapView);
-        tv_zhuizong = (TextView) findViewById(R.id.tv_zhuizong);
-        tv_guiji = (TextView) findViewById(R.id.tv_guiji);
+        mMapView =  findViewById(R.id.mapView);
+        tv_zhuizong =  findViewById(R.id.tv_zhuizong);
+        tv_guiji =  findViewById(R.id.tv_guiji);
 /**
  * 生命周期方法，必须要重写。实现地图的生命周期管理
  */
@@ -108,13 +109,13 @@ public class MainActivity extends AppCompatActivity
         // 开始定位
         initLoc();
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer =  findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView =  findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
 
@@ -124,7 +125,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer =  findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -134,8 +135,6 @@ public class MainActivity extends AppCompatActivity
 
 
     private void initLoc() {
-        Log.i("map", "进入开始定位函数体内。。");
-        // TODO Auto-generated method stub
         mlocationClient = new AMapLocationClient(this);
         // 初始化定位参数
         mLocationOption = new AMapLocationClientOption();
@@ -151,13 +150,11 @@ public class MainActivity extends AppCompatActivity
         mlocationClient.setLocationOption(mLocationOption);
         // 启动定位
         mlocationClient.startLocation();
-        Log.i("map", "开启定位");
     }
 
 
     /** 绘制两个坐标点之间的线段,从以前位置到现在位置 */
     private void setUpMap(LatLng oldData, LatLng newData) {
-        Log.i("map", "进入开始划线函数体内");
         // 绘制一个大地曲线
         aMap.addPolyline((new PolylineOptions()).add(oldData, newData).geodesic(true).color(Color.GREEN));
     }
@@ -169,25 +166,29 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         switch (item.getItemId()) {
             case R.id.nav_main:
-                //首页
+                //首页  展示地图 定位
+                // 随便看看一下新闻，RecyclerView里面还没有填充数据。填充iDataAPI的数据。
                 startActivity(new Intent(MainActivity.this, MainActivity.class));
                 break;
             case R.id.nav_fenceSetting:
+                //围栏设置 因为之前涉及过Bmob，现在展示有些问题；已经修复。
+                // 最好再添加上拉刷新下拉加载功能。
                 startActivity(new Intent(MainActivity.this, FenceSetActivity.class));
                 break;
-            case R.id.nav_camera:
-                //远程拍照
-
+            case R.id.nav_picture:
+                //图片展示 这个是个图片加载（现在只是简单的demo）Gank.io-妹子图片，
+                // 还需要完善图片的具体展示。
+                startActivity(new Intent(MainActivity.this, GlideDemoActivity.class));
                 break;
-            case R.id.nav_video:
-                //远程视频
-
+            case R.id.nav_netconnect:
+                //网络请求 MVP框架 用最新的技术写的一个网络请求 返回json数据。
+                //最好将此json数据进行解析出来，展示在recyclerview上。
+                startActivity(new Intent(MainActivity.this, BookActivity.class));
                 break;
-            case R.id.nav_sync:
-
-                break;
-            case R.id.nav_message:
-                startActivity(new Intent(MainActivity.this, TestActivity.class));
+            case R.id.nav_setting:
+                //我的
+                //加底部导航栏ButtomTabBar；健康课堂和个人中心
+                startActivity(new Intent(MainActivity.this, SettingActivity.class));
                 break;
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -197,20 +198,16 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onLocationChanged(AMapLocation amapLocation) {
-        Log.i("map", "进入定位成功后的回掉函数，接收异步返回的定位结果，获取定位结果");
         if (amapLocation != null && amapLocation.getErrorCode() == 0) {
             // 定位成功回调信息，设置相关消息
             amapLocation.getLocationType();// 获取当前定位结果来源，如网络定位结果，详见官方定位类型表
-            Log.i("map", "定位结果来源:" + amapLocation.getLocationType());
             amapLocation.getLatitude();// 获取纬度
-            Log.i("map", "纬度:" + amapLocation.getLatitude());
             amapLocation.getLongitude();// 获取经度
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Date date = new Date(amapLocation.getTime());
             df.format(date);// 定位时间
-            Log.i("map", "定位时间:" + date);
             amapLocation.getAddress();// 地址，如果option中设置isNeedAddress为false，则没有此结果，网络定位结果中会有地址信息，GPS定位不返回地址信息。
-            Log.i("map", "地址信息:" + amapLocation.getAddress());
+
 
             // 定位成功
             LatLng newLatLng = new LatLng(amapLocation.getLatitude(), amapLocation.getLongitude());
@@ -236,12 +233,10 @@ public class MainActivity extends AppCompatActivity
 
                 // 记录第一次的定位信息
                 oldLatLng = newLatLng;
-                Log.i("map", "第一次定位的信息 oldLatLng : " + oldLatLng);
                 isFirstLoc = false;// 此后不再是第一次定位
             }
             // 位置有变化
             if (oldLatLng != newLatLng) {
-                Log.i("map","进入位置有变化后的方法内 ； new latlag :" + amapLocation.getLatitude() + "," + amapLocation.getLongitude());
                 setUpMap(oldLatLng, newLatLng);
                 oldLatLng = newLatLng;
             }
@@ -257,7 +252,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void activate(OnLocationChangedListener listener) {
-        Log.i("map", "进入激活定位函数体内");
         mListener = listener;
     }
 

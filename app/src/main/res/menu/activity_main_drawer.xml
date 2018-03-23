@@ -10,29 +10,21 @@
             android:id="@+id/nav_fenceSetting"
             android:icon="@drawable/ic_menu_gallery"
             android:title="围栏设置" />
+
         <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="远程拍照" />
-        <item
-            android:id="@+id/nav_video"
+            android:id="@+id/nav_picture"
             android:icon="@drawable/ic_menu_manage"
-            android:title="远程视频" />
+            android:title="图片展示" />
         <item
-            android:id="@+id/nav_sync"
+            android:id="@+id/nav_netconnect"
             android:icon="@drawable/ic_menu_manage"
-            android:title="媒体同步"
-            ></item>
-        <item
-            android:id="@+id/nav_message"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="消息中心"
-            ></item>
+            android:title="网络请求"
+            />
         <item
             android:id="@+id/nav_setting"
             android:icon="@drawable/ic_menu_manage"
-            android:title="设置"
-            ></item>
+            android:title="我的"
+            />
     </group>
 
 </menu>

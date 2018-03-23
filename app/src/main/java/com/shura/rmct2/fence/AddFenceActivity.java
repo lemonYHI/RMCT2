@@ -10,15 +10,9 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.os.Vibrator;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -39,16 +33,18 @@ import com.amap.api.maps2d.model.LatLng;
 import com.amap.api.maps2d.model.MyLocationStyle;
 import com.amap.api.maps2d.model.PolylineOptions;
 import com.shura.rmct2.R;
+import com.shura.rmct2.fence.model.fenceBean;
 import com.shura.rmct2.tool.CommonToolBar;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.SaveListener;
+/*import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.SaveListener;*/
 
 /**
  * Created by lemon on 2017/10/25.
+ * 新增围栏
  */
 
 public class AddFenceActivity extends Activity implements LocationSource, AMapLocationListener {
@@ -119,7 +115,7 @@ public class AddFenceActivity extends Activity implements LocationSource, AMapLo
                         fenceBean f1 = new fenceBean();
                         f1.setFencename(et.getText().toString());
                         f1.setFencepic("图片喽");
-                        f1.save(new SaveListener<String>() {
+                       /* f1.save(new SaveListener<String>() {
                             @Override
                             public void done(String objectId,BmobException e) {
                                 if(e==null){
@@ -128,7 +124,7 @@ public class AddFenceActivity extends Activity implements LocationSource, AMapLo
                                     Toast.makeText(getApplicationContext(),"创建数据失败：" + e.getMessage(),Toast.LENGTH_SHORT).show();
                                 }
                             }
-                        });
+                        });*/
                     }
                 }).show();
 
@@ -170,8 +166,6 @@ public class AddFenceActivity extends Activity implements LocationSource, AMapLo
 
 
     private void initLoc() {
-        Log.i("map", "进入开始定位函数体内。。");
-        // TODO Auto-generated method stub
         mlocationClient = new AMapLocationClient(getApplicationContext());
         // 初始化定位参数
         mLocationOption = new AMapLocationClientOption();
@@ -187,32 +181,25 @@ public class AddFenceActivity extends Activity implements LocationSource, AMapLo
         mlocationClient.setLocationOption(mLocationOption);
         // 启动定位
         mlocationClient.startLocation();
-        Log.i("map", "开启定位");
     }
 
     /** 绘制两个坐标点之间的线段,从以前位置到现在位置 */
     private void setUpMap(LatLng oldData, LatLng newData) {
-        Log.i("map", "进入开始划线函数体内");
         // 绘制一个大地曲线
         aMap.addPolyline((new PolylineOptions()).add(oldData, newData).geodesic(true).color(Color.GREEN));
     }
 
     @Override
     public void onLocationChanged(AMapLocation amapLocation) {
-        Log.i("map", "进入定位成功后的回掉函数，接收异步返回的定位结果，获取定位结果");
         if (amapLocation != null && amapLocation.getErrorCode() == 0) {
             // 定位成功回调信息，设置相关消息
             amapLocation.getLocationType();// 获取当前定位结果来源，如网络定位结果，详见官方定位类型表
-            Log.i("map", "定位结果来源:" + amapLocation.getLocationType());
             amapLocation.getLatitude();// 获取纬度
-            Log.i("map", "纬度:" + amapLocation.getLatitude());
             amapLocation.getLongitude();// 获取经度
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Date date = new Date(amapLocation.getTime());
             df.format(date);// 定位时间
-            Log.i("map", "定位时间:" + date);
             amapLocation.getAddress();// 地址，如果option中设置isNeedAddress为false，则没有此结果，网络定位结果中会有地址信息，GPS定位不返回地址信息。
-            Log.i("map", "地址信息:" + amapLocation.getAddress());
 
             // 定位成功
             LatLng newLatLng = new LatLng(amapLocation.getLatitude(), amapLocation.getLongitude());
@@ -238,19 +225,16 @@ public class AddFenceActivity extends Activity implements LocationSource, AMapLo
 
                 // 记录第一次的定位信息
                 oldLatLng = newLatLng;
-                Log.i("map", "第一次定位的信息 oldLatLng : " + oldLatLng);
                 isFirstLoc = false;// 此后不再是第一次定位
             }
             // 位置有变化
             if (oldLatLng != newLatLng) {
-                Log.i("map","进入位置有变化后的方法内 ； new latlag :" + amapLocation.getLatitude() + "," + amapLocation.getLongitude());
                 setUpMap(oldLatLng, newLatLng);
                 oldLatLng = newLatLng;
             }
 
             // 设置地理围栏
             if (centerLatLng == null) {
-                Log.i("map", "如果中心围栏为空，进入这里。");
                 // 2.设置地理围栏中心,围栏中心应该是一个定值,这个定值是不是以摄像头所在的地方为准？
                 centerLatLng = new LatLng(34.223556, 108.882886);
 
@@ -260,31 +244,23 @@ public class AddFenceActivity extends Activity implements LocationSource, AMapLo
 				/* 100:是围栏半径（测试发现，设置的太小，不会发出广播）；-1：是超时时间（单位：ms，-1代表永不超时） */
                 mlocationClient.addGeoFenceAlert("fenceId", centerLatLng.latitude, centerLatLng.longitude, 100, -1,pendingIntent);
 
-                Log.i("map", "以中心围栏为原点，开始画圆 。");
                 addCircle(centerLatLng, 500);
             } else {
                 double latitude = amapLocation.getLatitude();
                 double longitude = amapLocation.getLongitude();
-                Log.i("map", "当前经纬度: " + latitude + "," + longitude);
                 LatLng endLatlng = new LatLng(amapLocation.getLatitude(), amapLocation.getLongitude());
                 // 计算量坐标点距离
                 double distances = AMapUtils.calculateLineDistance(centerLatLng, endLatlng);
-                Log.i("map", "当前距离中心点 ：" + distances);
                 Toast.makeText(this, "当前距离中心点：" + ((int) distances), Toast.LENGTH_LONG).show();
-
             }
 
         } else {
             // 显示错误信息ErrCode是错误码，errInfo是错误信息，详见错误码表。
-            Log.i("map", "location Error, ErrCode:" + amapLocation.getErrorCode() + ", errInfo:"
-                    + amapLocation.getErrorInfo());
-
             Toast.makeText(this, "定位失败，呜呜呜~~~~", Toast.LENGTH_LONG).show();
         }
     }
 
     public void addCircle(LatLng latLng, int radius) {
-        Log.i("map", "画圆的方法体内");
         CircleOptions circleOptions = new CircleOptions();
         circleOptions.center(latLng);
         circleOptions.radius(radius);
@@ -296,7 +272,6 @@ public class AddFenceActivity extends Activity implements LocationSource, AMapLo
 
     @Override
     public void activate(OnLocationChangedListener listener) {
-        Log.i("map", "进入激活定位函数体内");
         mListener = listener;
     }
 
@@ -335,13 +310,11 @@ public class AddFenceActivity extends Activity implements LocationSource, AMapLo
                     Toast.makeText(getApplicationContext(), "进入地理围栏~", Toast.LENGTH_LONG).show();
                     vibrator.vibrate(3000);
                     // textView.setText("In");
-                    Log.i("map", "进入地理围栏");
                 } else if (status == 2) {
                     // 离开围栏区域
                     Toast.makeText(getApplicationContext(), "离开地理围栏~", Toast.LENGTH_LONG).show();
                     vibrator.vibrate(3000);
                     // textView.setText("Out");
-                    Log.i("map", "离开地理围栏");
                 }
             }
         }
